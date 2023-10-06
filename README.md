@@ -8,10 +8,13 @@ PROPOSAL IDEA:
 Gym/Helper App - You sign in / create an account to join the app. The main function is assisting with getting into working out/improving on your current workouts. You would select what "day" it is, ie. what muscle group you want to try and then it will give you a couple exercises that are good for you. Some other factors that it will take into account are how expereinced you are and if you are working out with access to workout equipment (machines/dumbells) or not. Then the app will let you select the ones you wnat to do and track your progress, so you can show you've finished it after each set. Maybe include positive messages when this function is completed to encourage users, or on a timer to help them stay motivated to keep going. 
 
 Global Database instead of per-user data base that stores a large number of API data that was already fetched for PPL (push pull legs)
-If someone searches for a unique muscle group you can search for the API and dynamically add it to the Database so that its cahced and then each user pulls from that Database.
+If someone searches for a unique muscle group you can search for the API and dynamically add it to the Database so that its cached and then each user pulls from that Database.
 
 
-DataSet: https://www.kaggle.com/datasets/niharika41298/gym-exercise-data/code
+DataSet: https://www.kaggle.com/datasets/niharika41298/gym-exercise-data/code  (idk if this one has a public API or not)
 API: 
 Google OATH - https://developers.google.com/identity/protocols/oauth2
-Fitness - https://wger.de/en/software/api
+Fitness Dataset API:
+- https://wger.de/en/software/api
+- https://zylalabs.com/api-marketplace/sports/exercise+database+api/392
+- https://www.tredict.com/blog/oauth_docs/
