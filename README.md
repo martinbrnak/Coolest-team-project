@@ -11,9 +11,10 @@ Global Database instead of per-user data base that stores a large number of API 
 If someone searches for a unique muscle group you can search for the API and dynamically add it to the Database so that its cached and then each user pulls from that Database.
 
 
-DataSet: https://www.kaggle.com/datasets/niharika41298/gym-exercise-data/code  (idk if this one has a public API or not)
-API: 
-Google OATH - https://developers.google.com/identity/protocols/oauth2
+DataSet: 
+- https://www.kaggle.com/datasets/niharika41298/gym-exercise-data/code  (idk if this one has a public API or not) 
+Google OATH:
+- https://developers.google.com/identity/protocols/oauth2
 Fitness Dataset API:
 - https://wger.de/en/software/api
 - https://zylalabs.com/api-marketplace/sports/exercise+database+api/392
