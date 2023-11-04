@@ -1,4 +1,15 @@
 # Coolest-team-project
+
+Database info:
+
+Provider: AWS
+Language: MySQL
+url: 'database-1.cprkugnwm195.us-east-2.rds.amazonaws.com'
+priamry-user/admin: 'admin'
+password: 'martinbrnak'
+
+
+
 PROPOSAL IDEA:
 Gym/Helper App - You sign in / create an account to join the app. The main function is assisting with getting into working out/improving on your current workouts. You would select what "day" it is, ie. what muscle group you want to try and then it will give you a couple exercises that are good for you. Some other factors that it will take into account are how expereinced you are and if you are working out with access to workout equipment (machines/dumbells) or not. Then the app will let you select the ones you wnat to do and track your progress, so you can show you've finished it after each set. Maybe include positive messages when this function is completed to encourage users, or on a timer to help them stay motivated to keep going. 
 
