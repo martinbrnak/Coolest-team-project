@@ -8,6 +8,7 @@ const connection = mysql.createConnection({
   host: 'database-1.cprkugnwm195.us-east-2.rds.amazonaws.com',
   user: 'admin',
   password: 'martinbrnak'
+  // database: ''
 })
 const port = 3000;
 
@@ -19,10 +20,30 @@ const routes = require("./routes/spotify.js");
 app.use("/spotify", routes);
 
 
-connection.connect();
+connection.connect((error) => {
+  if (error) {
+    console.error('Error connecting to the database: ' + error.stack);
+    return;
+  }
+  console.log('Connected to the database as ID ' + connection.threadId);
+});
+
+//connection.query('SELECT * FROM users', (error, results) => {
+//  if (error) {
+//    console.error('Error executing query: ' + error.stack);
+//    return;
+//  }
+//  console.log('Query results:', results);
+//});
 
 
-connection.end();
+connection.end((error) => {
+  if (error) {
+    console.error('Error closing the database connection: ' + error.stack);
+    return;
+  }
+  console.log('Database connection closed.');
+});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
