@@ -7,8 +7,8 @@ const bodyParser = require("body-parser");
 const connection = mysql.createConnection({
   host: 'database-1.cprkugnwm195.us-east-2.rds.amazonaws.com',
   user: 'admin',
-  password: 'martinbrnak'
-  // database: ''
+  password: 'martinbrnak',
+  database: 'Gym_Users'
 })
 const port = 3000;
 
@@ -28,13 +28,13 @@ connection.connect((error) => {
   console.log('Connected to the database as ID ' + connection.threadId);
 });
 
-//connection.query('SELECT * FROM users', (error, results) => {
-//  if (error) {
-//    console.error('Error executing query: ' + error.stack);
-//    return;
-//  }
-//  console.log('Query results:', results);
-//});
+connection.query('SELECT * FROM users', (error, results) => {
+  if (error) {
+    console.error('Error executing query: ' + error.stack);
+    return;
+  }
+  console.log('Query results:', results);
+});
 
 
 connection.end((error) => {
