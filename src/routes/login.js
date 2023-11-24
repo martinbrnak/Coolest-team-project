@@ -1,22 +1,17 @@
 const express = require("express");
 const router = express.Router();
 
-// Get method
-//
 
-router.get("/songs", (req, res) => {
+
+router.get("/login", (req, res) => {
   try {
-    const songs = [
-      "Death of a bachelor",
-      "Everlong",
-      "I dont give a fu**",
-      "Home",
-      "Hotel California",
-      "Fake palindromes",
-      "Heavy",
+    const login = [
+      'This will show login page',
+      'Username',
+      'Password',
     ];
 
-    res.status(200).json(songs);
+    res.status(200).json(login);
   } catch (error) {
     console.log(error);
   }

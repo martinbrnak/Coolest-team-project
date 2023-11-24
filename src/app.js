@@ -9,16 +9,18 @@ const connection = mysql.createConnection({
   user: 'admin',
   password: 'martinbrnak',
   database: 'Gym_Users'
-})
-const port = 3000;
+});
+
+const port = 8080;
 
 app.use(cors());
 app.use(bodyParser.json());
 
-const routes = require("./routes/spotify.js");
-
-app.use("/spotify", routes);
-
+const login = require("./routes/login.js");
+const home = require("./routes/home.js");
+const history = require("./routes/history.js");
+const plans = require("./routes/plans.js");
+const excercise = require("./routes/excercise.js");
 
 connection.connect((error) => {
   if (error) {
@@ -45,13 +47,25 @@ connection.end((error) => {
   console.log('Database connection closed.');
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+// Middleware to redirect from root to "/login"
+app.use((req, res, next) => {
+  if (req.path === "/") {
+    res.redirect(`http://localhost:${port}/login`);
+  } else {
+    next();
+  }
 });
 
-app.get("/labb2", (req, res) => {
-  res.send("new endpoint");
+app.get("/", (req, res) => {
+  res.send('user should not access this');
 });
+
+app.get("/login", login);
+app.get("/home", home);
+app.get("/history", history);
+app.get("/plans", plans);
+app.get("/excercise", excercise)
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
