@@ -64,7 +64,7 @@ app.get("/login", login);
 app.get("/home", home);
 app.get("/history", history);
 app.get("/plans", plans);
-app.get("/excercise", excercise)
+app.get("/excercise", excercise);
 
 
 app.listen(port, () => {
