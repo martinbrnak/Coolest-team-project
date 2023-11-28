@@ -1,4 +1,4 @@
-// HistoryPage.js
+// HistoryPage.tsx
 import React from 'react';
 
 const HistoryPage = () => {
