@@ -10,7 +10,7 @@ import LoginPage from './LoginPage.tsx';
 import ExercisesPage from './ExercisesPage.tsx';
 import HomePage from './HomePage.tsx';
 import PlansPage from './PlansPage.tsx';
-import ExerciseList from './exercise.js';
+import ExerciseList from './Exercise.tsx';
 
 
 const App: React.FC = () => {

@@ -1,7 +1,7 @@
 // ExercisesPage.tsx
 
 import React from 'react';
-import ExerciseList from './exercise.js';
+import ExerciseList from './Exercise.tsx';
 
 const ExercisesPage: React.FC = () => {
   return (

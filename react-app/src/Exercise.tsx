@@ -1,8 +1,17 @@
+// Exercise.tsx
+
 import React, { useState, useEffect } from 'react';
 import './exercise.css';
 
-const ExerciseList = () => {
-  const [exerciseData, setExerciseData] = useState([]);
+interface Exercise {
+  id: number;
+  name: string;
+  description: string;
+  // Add any other properties based on the actual data structure
+}
+
+const ExerciseList: React.FC = () => {
+  const [exerciseData, setExerciseData] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -12,23 +21,23 @@ const ExerciseList = () => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        const data = await response.json();
+        const data: { results: Exercise[] } = await response.json();
         setExerciseData(data.results);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching data:', error);
         setLoading(false);
       }
-    }
+    };
 
 
 
     fetchData();
   }, []);
 
-  const stripHtmlTags = (html) => {
+  const stripHtmlTags = (html: string) => {
     const doc = new DOMParser().parseFromString(html, 'text/html');
-    return doc.body.textContent || "";
+    return doc.body.textContent || '';
   };
 
   return (
@@ -38,13 +47,10 @@ const ExerciseList = () => {
         <p>Loading...</p>
       ) : (
         <div className='exercise'>
-          {exerciseData.map(exercise => (
+          {exerciseData.map((exercise) => (
             <li key={exercise.id}>
               <strong>{exercise.name}</strong>
-              <p>
-                {stripHtmlTags(exercise.description)}
-              </p>
-
+              <p>{stripHtmlTags(exercise.description)}</p>
             </li>
           ))}
         </div>
@@ -52,7 +58,5 @@ const ExerciseList = () => {
     </div>
   );
 };
-
-
 
 export default ExerciseList;
