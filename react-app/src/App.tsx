@@ -31,10 +31,7 @@ const App: React.FC = () => {
           </main>
         </div>
       </Router>
-      <main className="main-content">
-        {/* Render your content directly here */}
-        <ExerciseList />
-      </main>
+
     </div>
 
   );
