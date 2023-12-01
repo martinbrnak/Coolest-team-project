@@ -14,6 +14,8 @@ import ExerciseList from './Exercise.tsx';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 
+
+
 const App: React.FC = () => {
   return (
 
@@ -24,7 +26,7 @@ const App: React.FC = () => {
           domain="dev-ra4mhrpcnf2e1xtu.us.auth0.com"
           clientId="FZD4oquHkioFyUqUlUNV4CewMMEoWMlS"
           authorizationParams={{
-            redirect_uri: "localhost:3000/home"
+            redirect_uri: window.location.origin
           }}
         >
           <div className="app">
@@ -39,6 +41,8 @@ const App: React.FC = () => {
               </Routes>
             </main>
           </div>
+
+
         </Auth0Provider>
       </Router>
 
