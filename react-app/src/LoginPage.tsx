@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './LoginPage.css';
+import LoginButton from './LoginButton.tsx';
+import LogoutButton from './LogoutButton.tsx';
 
 interface LoginCredentials {
   username: string;
@@ -12,6 +14,7 @@ const LoginPage: React.FC = () => {
     password: '',
   });
   const [loading, setLoading] = useState(false);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,6 +48,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
+
     <div className="login-container">
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
@@ -59,6 +63,7 @@ const LoginPage: React.FC = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <label htmlFor="password">Password:</label>
           <input
@@ -74,6 +79,12 @@ const LoginPage: React.FC = () => {
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
+      <div>
+        <LoginButton />
+      </div>
+      <div>
+        <LogoutButton />
+      </div>
     </div>
   );
 };
