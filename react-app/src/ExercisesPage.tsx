@@ -2,6 +2,8 @@
 
 import React from 'react';
 import ExerciseList from './Exercise.tsx';
+import './exercise.css';
+
 
 const ExercisesPage: React.FC = () => {
   return (

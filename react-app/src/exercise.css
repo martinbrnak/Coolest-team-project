@@ -1,6 +1,15 @@
-.exercise {
-  text-align: center;
-  background-color: white;
+/* exercise.css */
+
+// Styling for the container of exercises
+.exercise-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.exercise_description {}
+// Styling for individual exercise boxes
+.exercise-box {
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: calc(25% - 20px); /* 4 items per row */
+}
