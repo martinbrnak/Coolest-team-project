@@ -4,15 +4,16 @@
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
-  margin-left: 30px; /* Adjust the value to move the boxes to the right */
+  margin-left: 150px; /* Adjust the value to move the boxes to the right */
 }
 
 .exercise-box > div {
   box-sizing: border-box; /* Include padding and border in the box's total height */
   border: 2px solid #ccc;
   padding: 20px;
-  width: calc(30% - 25px); /* 4 items per row */
-  max-width: calc(30% - 25px); /* Set a maximum width */
+  width: calc(60% - 55px); /* 4 items per row */
+  max-width: calc(60% - 55px); /* Set a maximum width */
+  min-height: 200px;
   max-height: 200px; /* Set a fixed maximum height */
   overflow-y: auto; /* Enable vertical scrolling for overflow content */
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow for visual appeal */
