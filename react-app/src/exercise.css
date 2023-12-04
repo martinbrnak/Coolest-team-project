@@ -3,14 +3,14 @@
 .exercise-box {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px;
-  margin-left: 25px; /* Adjust the value to move the boxes to the right */
+  gap: 30px;
+  margin-left: 30px; /* Adjust the value to move the boxes to the right */
 }
 
 .exercise-box > div {
   box-sizing: border-box; /* Include padding and border in the box's total height */
-  border: 1px solid #ccc;
-  padding: 15px;
+  border: 2px solid #ccc;
+  padding: 20px;
   width: calc(30% - 25px); /* 4 items per row */
   max-width: calc(30% - 25px); /* Set a maximum width */
   max-height: 200px; /* Set a fixed maximum height */
@@ -23,4 +23,12 @@
   .exercise-box > div {
     max-height: none; /* Allow full height on smaller screens */
   }
+}
+
+.exercise-box > div strong {
+  font-size: 1.2em; /* Larger font size for exercise name */
+}
+
+.exercise-box > div p {
+  color: #666; /* Dimmed color for description */
 }
