@@ -1,16 +1,19 @@
 // ExercisesPage.tsx
-
-import React from 'react';
+import React, { useState } from 'react';
 import ExerciseList from './Exercise.tsx';
-import './exercise.css';
-
 
 const ExercisesPage: React.FC = () => {
+  const [selectedMuscle, setSelectedMuscle] = useState<Muscle | null>(null);
+
+  const handleMuscleSelect = (muscle: Muscle | null) => {
+    setSelectedMuscle(muscle);
+  };
+
   return (
     <div>
       <main className="main-content">
-        {/* Render your content directly here */}
-        <ExerciseList />
+        <h1>Exercises</h1>
+        <ExerciseList selectedMuscle={selectedMuscle} onMuscleSelect={handleMuscleSelect} />
       </main>
     </div>
   );

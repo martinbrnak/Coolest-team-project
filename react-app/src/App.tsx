@@ -10,7 +10,6 @@ import LoginPage from './LoginPage.tsx';
 import ExercisesPage from './ExercisesPage.tsx';
 import HomePage from './HomePage.tsx';
 import PlansPage from './PlansPage.tsx';
-import ExerciseList from './Exercise.tsx';
 import { Auth0Provider } from '@auth0/auth0-react';
 
 
