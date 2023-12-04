@@ -21,28 +21,23 @@ const App: React.FC = () => {
 
     <div className="app">
       <Router>
-        <Auth0Provider
-          domain="dev-ra4mhrpcnf2e1xtu.us.auth0.com"
-          clientId="FZD4oquHkioFyUqUlUNV4CewMMEoWMlS"
-          authorizationParams={{
-            redirect_uri: window.location.origin
-          }}
-        >
-          <div className="app">
-            <Sidebar />
-            <main className="main-content">
-              <Routes>
-                <Route path="/history" element={<HistoryPage />} />
-                <Route path="/plans" element={<PlansPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/exercises" element={<ExercisesPage />} />
-              </Routes>
-            </main>
-          </div>
 
 
-        </Auth0Provider>
+        <div className="app">
+          <Sidebar />
+          <main className="main-content">
+            <Routes>
+              <Route path="/history" element={<HistoryPage />} />
+              <Route path="/plans" element={<PlansPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/exercises" element={<ExercisesPage />} />
+            </Routes>
+          </main>
+        </div>
+
+
+
       </Router>
 
     </div>
