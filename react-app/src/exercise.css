@@ -1,15 +1,13 @@
-/* exercise.css */
+/* Exercise.css */
 
-// Styling for the container of exercises
-.exercise-list {
+.exercise-box {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
 }
 
-// Styling for individual exercise boxes
-.exercise-box {
+.exercise-box > div {
   border: 1px solid #ccc;
   padding: 10px;
-  width: calc(25% - 20px); /* 4 items per row */
+  width: calc(22% - 20px); /* 4 items per row */
 }
