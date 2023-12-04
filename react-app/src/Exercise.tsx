@@ -61,6 +61,18 @@ const MuscleFilter: React.FC<MuscleFilterProps> = ({ onSelect }) => {
 };
 
 
+const stripHtmlTags = (html: string) => {
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  return doc.body.textContent || '';
+};
+
+const Exercise: React.FC<{ exercise: Exercise }> = ({ exercise }) => (
+  <div className='exercise-box'>
+    <strong>{exercise.name}</strong>
+    <p>{stripHtmlTags(exercise.description)}</p>
+  </div>
+);
+
 const ExerciseList: React.FC = () => {
   const [exerciseData, setExerciseData] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
@@ -100,13 +112,14 @@ const ExerciseList: React.FC = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className='exercise'>
+        <div className='exercise-box'>
           {exerciseData.map((exercise) => (
             <li key={exercise.id}>
               <strong>{exercise.name}</strong>
               <p>{stripHtmlTags(exercise.description)}</p>
               <p>Muscle Group: {exercise.muscles}</p>
             </li>
+            //            <Exercise key={exercise.id} exercise={exercise} />
           ))}
         </div>
       )}
