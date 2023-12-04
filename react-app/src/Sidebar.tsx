@@ -22,7 +22,7 @@ const Sidebar: React.FC = () => {
       <Link to="/history" className={`sidebar-button ${location.pathname === '/HistoryPage' ? 'active' : ''}`}>History</Link>
       <Link to="/plans" className={`sidebar-button ${location.pathname === '/PlansPage' ? 'active' : ''}`}>Plans</Link>
       {isAuthenticated ? (
-        <button className="sidebar-button" onClick={() => logout({ returnTo: window.location.origin })}>
+        <button className="sidebar-button" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
           Log Out
         </button>
       ) : (
