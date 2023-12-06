@@ -12,9 +12,7 @@ const Sidebar: React.FC = () => {
       <Link to="/exercises" className={`sidebar-button ${location.pathname === '/ExercisesPage' ? 'active' : ''}`}>Exercises</Link>
 
       {isAuthenticated ? (
-        <>
-          <Link to="/userpage" className={`sidebar-button ${location.pathname === '/UserPage' ? 'active' : ''}`}>User Page</Link>
-        </>
+        <Link to="/user" className={`sidebar-button ${location.pathname === '/UserPage' ? 'active' : ''}`}>User Page</Link>
       ) : (
         <Link to="/login" className={`sidebar-button ${location.pathname === '/LoginPage' ? 'active' : ''}`}>Login</Link>
       )}
