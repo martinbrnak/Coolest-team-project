@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import MuscleFilter from './MuscleFilter.tsx';
 import EquipmentFilter from './EquipmentFilter.tsx';
+import ExerciseDetails from './ExerciseDetails.tsx';
 import './exercise.css';
 
 interface Muscle {
@@ -23,7 +24,10 @@ interface Exercise {
   equipment: number;
 }
 
-
+interface ExerciseProps {
+  exercise: Exercise;
+  onClick: (exercise: Exercise) => void;
+}
 
 interface ExerciseListProps {
   selectedMuscle: Muscle | null;
@@ -34,9 +38,11 @@ interface ExerciseListProps {
 
 
 
-const ExerciseList: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSelect, selectedEquipment, onEquipmentSelect }) => {
+const ExerciseList: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSelect, selectedEquipment, onEquipmentSelect, onExerciseSelect }) => {
   const [exerciseData, setExerciseData] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,17 +73,32 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSel
     fetchData();
   }, [selectedMuscle, selectedEquipment]);
 
+  const handleExerciseClick = (exercise: Exercise) => {
+    setSelectedExercise(exercise);
+  };
+
+  const closeModal = () => {
+    setSelectedExercise(null);
+  };
+
   const stripHtmlTags = (html: string) => {
     const doc = new DOMParser().parseFromString(html, 'text/html');
     return doc.body.textContent || '';
   };
 
-  const Exercise: React.FC<{ exercise: Exercise }> = ({ exercise }) => (
-    <div className='exercise-box'>
-      <strong>{exercise.name}</strong>
-      <p>{stripHtmlTags(exercise.description)}</p>
-    </div>
-  );
+  const Exercise: React.FC<ExerciseProps> = ({ exercise, onClick }) => {
+    const handleClick = () => {
+      onClick(exercise);
+    };
+
+    return (
+      <div className='exercise-box' onClick={handleClick}>
+        <strong>{exercise.name}</strong>
+        <p>{stripHtmlTags(exercise.description)}</p>
+      </div>
+    );
+  };
+
 
   return (
     <div>
@@ -91,9 +112,18 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSel
       ) : (
         <div className='exercise-box'>
           {exerciseData.map((exercise) => (
-            <Exercise key={exercise.id} exercise={exercise} />
+            <div key={exercise.id} onClick={() => handleExerciseClick(exercise)}>
+              {/* Exercise component modified to be clickable */}
+              <strong>{exercise.name}</strong>
+              <p>{stripHtmlTags(exercise.description)}</p>
+            </div>
           ))}
         </div>
+      )}
+
+      {/* Render the ExerciseDetails modal when an exercise is selected */}
+      {selectedExercise && (
+        <ExerciseDetails exercise={selectedExercise} onClose={closeModal} />
       )}
     </div>
   );
