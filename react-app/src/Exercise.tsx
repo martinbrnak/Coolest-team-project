@@ -19,7 +19,7 @@ interface Exercise {
   id: number;
   name: string;
   description: string;
-  exercise_base: string;
+  exercise_base: number;
   muscles: number;
   equipment: number;
 }
