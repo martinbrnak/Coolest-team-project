@@ -1,9 +1,8 @@
 // Workout.js
 
-const ExerciseList = require('./Exercise')
 const express = require('express');
 const mysql = require('mysql');
-const axios = require('axios');
+// const axios = require('axios');
 
 // I feel like this information should be in process.env ? not sure.
 const connection = mysql.createConnection({
@@ -13,15 +12,15 @@ const connection = mysql.createConnection({
     database: 'Gym_Users'  
 });
 
-// open DB
-connection.connect((err) => {
-    if (err) {
-      console.error('Error connecting to the database:', err.stack);
-      return;
-    }
+// // open DB
+// connection.connect((err) => {
+//     if (err) {
+//       console.error('Error connecting to the database:', err.stack);
+//       return;
+//     }
   
-    console.log('Connected to the database');
-  });
+//     console.log('Connected to the database');
+//   });
 
 const workoutRouter = express.Router();
 
@@ -56,14 +55,5 @@ workoutRouter.post('/', (req, res, next) => {
     }
 });
 
-// close DB
-connection.end((err) => {
-    if (err) {
-      console.error('Error closing the database connection:', err.stack);
-      return;
-    }
-  
-    console.log('Connection closed');
-  });
 
 module.exports = workoutRouter;
