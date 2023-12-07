@@ -75,7 +75,11 @@ const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({ exercise, onClose }) 
 
     </div>
 
-  );
+  );  // the exercise_base and muscles fields are just meaningless numbers on the display... 
+
+
+
+
 };
 
 export default ExerciseDetails;
