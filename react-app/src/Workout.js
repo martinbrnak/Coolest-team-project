@@ -4,7 +4,6 @@ const express = require('express');
 const mysql = require('mysql');
 // const axios = require('axios');
 
-// I feel like this information should be in process.env ? not sure.
 const connection = mysql.createConnection({
     host: 'database-1.cprkugnwm195.us-east-2.rds.amazonaws.com',
     user: 'admin',
@@ -12,21 +11,21 @@ const connection = mysql.createConnection({
     database: 'Gym_Users'  
 });
 
-// // open DB
-// connection.connect((err) => {
-//     if (err) {
-//       console.error('Error connecting to the database:', err.stack);
-//       return;
-//     }
-  
-//     console.log('Connected to the database');
-//   });
 
 const workoutRouter = express.Router();
 
 // to be able to get all workouts tied to a specific userID
-workoutRouter.get('/:id', (req, res, next) => {
-    const userID = req.params.id;
+workoutRouter.get('/', (req, res, next) => {
+    connection.connect((err) => {
+        if (err) {
+            console.error('Error connecting to the database:', err.stack);
+            return;
+        }
+    
+        console.log('Connected to the database');
+    })
+
+    const userEmail = req.body.email
 
     if (foundWorkout) {
         res.send(foundWorkout);
