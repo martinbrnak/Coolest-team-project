@@ -98,6 +98,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
   const [isNewWorkout, setIsNewWorkout] = useState(false);
   const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: [], Weight: [] });
+  const [addingExercise, addExercise] = useState(false)
 
   const handleMuscleSelect = (muscle: Muscle | null) => {
     setSelectedMuscle(muscle);
@@ -111,6 +112,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
     // Placeholder for handling the start of a new workout
     setIsNewWorkout(true);
   }
+
 
   const handleAddToWorkout = (exerciseId: number) => {
     if (!workout.exercise.includes(exerciseId)) {
@@ -128,7 +130,20 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
 
   const handleStartPreset = (presetName: string) => {
     // Placeholder for handling the start of a preset workout
+    setIsNewWorkout(true);
     console.log(`Starting ${presetName} workout...`);
+    if (presetName = 'Pull') {
+      console.log(`We would add Pull exercises`)
+    }
+    else if (presetName = 'Push') {
+      console.log(`We would add Push exercises`)
+    }
+    else if (presetName = 'Leg') {
+      console.log(`We would add Leg day exercises`)
+    }
+    else {
+      console.log(`Unknown Preset Error`)
+    }
   };
 
 
@@ -140,9 +155,9 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
       </div>
       <div className='PresetBox'>
         <h1>Select one from the following presets</h1>
-        <button className='StartPresetButtons'>Push Day</button>
-        <button className='StartPresetButtons'>Pull Day</button>
-        <button className='StartPresetButtons'>Leg Day</button>
+        <button className='StartPresetButtons' onClick={() => handleStartPreset('Push')}>Push Day</button>
+        <button className='StartPresetButtons' onClick={() => handleStartPreset('Pull')}>Pull Day</button>
+        <button className='StartPresetButtons' onClick={() => handleStartPreset('Leg')}>Leg Day</button>
       </div>
 
       {isNewWorkout && (
