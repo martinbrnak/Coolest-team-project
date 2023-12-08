@@ -49,6 +49,8 @@ workoutRouter.get('/:email', (req, res, next) => {
 
 // posts a workout to the database
 workoutRouter.post('/', (req, res, next) => {
+    console.log('received post request for workout with info: ', req.body);
+
     connection.connect((err) => {
         if (err) {
             console.error('Error connecting to the database:', err.stack);
@@ -58,15 +60,9 @@ workoutRouter.post('/', (req, res, next) => {
         console.log('Connected to the database');
     })
 
-    // req.body should be JSON.stringify({ user, exercise <-- name of exercise that they clicked })
-    const workout = {
-        user: req.body.user.email,
-        exercise: req.body.exercise
-    }
-
     const insertQuery = 'INSERT INTO workouts (user, exercise, date) VALUES (?, ?, CURRENT_DATE())';
 
-    connection.query(insertQuery, workout, (error, results, fields) => {
+    connection.query(insertQuery, [req.body.user.email, req.body.name], (error, results, fields) => {
         if (error) {
         console.error('Error inserting data:', error);
         return res.status(500).send();
@@ -79,6 +75,7 @@ workoutRouter.post('/', (req, res, next) => {
         }
     });  
     
+    connection.end();
 });
 
 

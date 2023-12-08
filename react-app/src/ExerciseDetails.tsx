@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './ExerciseDetails.css';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface ExerciseDetailsProps {
   exercise: Exercise;
@@ -13,6 +14,7 @@ interface Video {
 }
 const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({ exercise, onClose }) => {
   const [exerciseVideo, setExerciseVideo] = useState<Video | null>(null);
+  const { user, isAuthenticated } = useAuth0();
 
   const stripHtmlTags = (html: string) => {
     const doc = new DOMParser().parseFromString(html, 'text/html');
@@ -63,9 +65,25 @@ const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({ exercise, onClose }) 
     onClose();
   };
 
+  const addExerciseToWorkout = async () => {
+    if (isAuthenticated) {
+      const name = exercise.name;
+      const response = await fetch('http://localhost:8000/workout/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user, name })
+      })
+    }
+  }
+
   return (
     <div className="exercise-details-modal">
-      <button className="close-button" onClick={closeModal}>X</button>
+      <div className="button-container">
+        <button className="add-button" onClick={addExerciseToWorkout}>+</button>
+        <button className="close-button" onClick={closeModal}>X</button>
+      </div>
       <strong>{exercise.name}</strong>
       <p>{exercise.exercise_base}</p>
       <p>{exercise.muscles}</p>
