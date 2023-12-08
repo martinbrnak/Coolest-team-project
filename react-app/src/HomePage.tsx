@@ -1,5 +1,4 @@
 // HomePage.tsx
-
 import React from 'react';
 import WorkoutBox from './WorkoutBox.tsx';
 

@@ -30,17 +30,14 @@ interface ExerciseListProps {
   onEquipmentSelect: (muscle: Muscle | null) => void;
 }
 
-
-
-const WorkoutPage: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSelect, selectedEquipment, onEquipmentSelect }) => {
+const WorkoutExerciseList: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSelect, selectedEquipment, onEquipmentSelect, onExerciseSelect }) => {
   const [exerciseData, setExerciseData] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = "https://wger.de/api/v2/exercise/?language=2&limit=50"
+        const url = "https://wger.de/api/v2/exercise/?language=2&limit=100"
         var apiUrl = selectedMuscle
           ? url + `&muscles=${selectedMuscle.id}`
           : url
@@ -66,8 +63,6 @@ const WorkoutPage: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSele
     fetchData();
   }, [selectedMuscle, selectedEquipment]);
 
-
-
   return (
     <div>
       <div>
@@ -81,12 +76,49 @@ const WorkoutPage: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSele
         <div className='exercise-box'>
           {exerciseData.map((exercise) => (
             <div key={exercise.id} >
-              {/* Exercise component modified to be clickable */}
-              <strong>{exercise.name}</strong>
+              <p>{exercise.name}</p>
             </div>
           ))}
         </div>
       )}
+
+      {/* Render the ExerciseDetails modal when an exercise is selected */}
+    </div>
+  );
+};
+
+
+const WorkoutPage: React.FC<ExerciseListProps> = () => {
+  const [selectedMuscle, setSelectedMuscle] = useState<Muscle | null>(null);
+  const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
+
+  const handleMuscleSelect = (muscle: Muscle | null) => {
+    setSelectedMuscle(muscle);
+  };
+
+  const handleEquipmentSelect = (equipment: Equipment | null) => {
+    setSelectedEquipment(equipment);
+  }
+
+  return (
+    <div>
+      <div className='NewBox'>
+        <button className='StartNewButton'>Start new Workout</button>
+      </div>
+      <div className='PresetBox'>
+        <h1>Select one from the following presets</h1>
+        <button className='StartPresetButtons'>Push Day</button>
+        <button className='StartPresetButtons'>Pull Day</button>
+        <button className='StartPresetButtons'>Leg Day</button>
+      </div>
+      <div className='ExerciseBox'>
+        <WorkoutExerciseList
+          onMuscleSelect={handleMuscleSelect}
+          onEquipmentSelect={handleEquipmentSelect}
+          selectedMuscle={selectedMuscle}
+          selectedEquipment={selectedEquipment}
+        />
+      </div>
 
     </div>
   );
