@@ -112,6 +112,19 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
     setIsNewWorkout(true);
   }
 
+  const handleAddToWorkout = (exerciseId: number) => {
+    if (!workout.exercise.includes(exerciseId)) {
+      setWorkout(prevWorkout => ({
+        ...prevWorkout,
+        exercise: [...prevWorkout.exercise, exerciseId],
+      }));
+      console.log(`Exercise ${exerciseId} added to the workout!`);
+    } else {
+      console.log(`Exercise ${exerciseId} is already in the workout.`);
+    }
+  }
+
+
 
   const handleStartPreset = (presetName: string) => {
     // Placeholder for handling the start of a preset workout
