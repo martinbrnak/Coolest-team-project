@@ -28,8 +28,6 @@ interface Workout {
   Weight: Array<number>;
 }
 
-
-
 interface ExerciseListProps {
   selectedMuscle: Muscle | null;
   onMuscleSelect: (muscle: Muscle | null) => void;
@@ -99,6 +97,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const [selectedMuscle, setSelectedMuscle] = useState<Muscle | null>(null);
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
   const [isNewWorkout, setIsNewWorkout] = useState(false);
+  const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: [], Weight: [] });
 
   const handleMuscleSelect = (muscle: Muscle | null) => {
     setSelectedMuscle(muscle);
@@ -119,6 +118,8 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
     console.log(`Starting ${presetName} workout...`);
   };
 
+
+
   return (
     <div>
       <div className='NewBox'>
@@ -133,14 +134,28 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
 
       {isNewWorkout && (
         <div className='NewWorkout'>
-          <div className='ExerciseBox'>
-            <WorkoutExerciseList
-              onMuscleSelect={handleMuscleSelect}
-              onEquipmentSelect={handleEquipmentSelect}
-              selectedMuscle={selectedMuscle}
-              selectedEquipment={selectedEquipment}
-            />
+          <div>
+            <div className='ExerciseBox'>
+              <WorkoutExerciseList
+                onMuscleSelect={handleMuscleSelect}
+                onEquipmentSelect={handleEquipmentSelect}
+                selectedMuscle={selectedMuscle}
+                selectedEquipment={selectedEquipment}
+              />
+            </div>
           </div>
+
+          <div>
+            <button onClick={() => setIsNewWorkout(false)}>Cancel / Return</button>
+          </div>
+          {workout.exercise.length > 0 && (
+            <div>
+              <button> Save Workout </button>
+              {/* TODO: The save workout will then put all of the
+        Exercises into the db */}
+            </div>
+          )}
+
         </div>
       )}
 
