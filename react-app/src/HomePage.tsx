@@ -1,11 +1,12 @@
 // HomePage.tsx
 
 import React from 'react';
+import WorkoutBox from './WorkoutBox.tsx';
 
 const HomePage: React.FC = () => {
   return (
     <div>
-      {/* Empty placeholder component */}
+      <WorkoutBox />
     </div>
   );
 };

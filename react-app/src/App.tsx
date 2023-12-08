@@ -12,6 +12,7 @@ import HomePage from './HomePage.tsx';
 import PlansPage from './PlansPage.tsx';
 import UserPage from './UserPage.tsx';
 import { useAuth0 } from "@auth0/auth0-react";
+import WorkoutPage from './WorkoutPage.tsx';
 
 
 
@@ -52,6 +53,7 @@ const App: React.FC = () => {
               <Route path="/home" element={<HomePage />} />
               <Route path="/exercises" element={<ExercisesPage />} />
               <Route path="/user" element={<UserPage />} />
+              <Route path="/workout" element={<WorkoutPage />} />
             </Routes>
           </main>
         </div>
