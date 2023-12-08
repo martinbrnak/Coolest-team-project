@@ -17,17 +17,18 @@ const workoutRouter = express.Router();
 workoutRouter.use(cors());
 workoutRouter.use(express.json());
 
+connection.connect((err) => {
+    if (err) {
+        console.error('Error connecting to the database:', err.stack);
+        return;
+    }
+
+    console.log('Connected to the database');
+})
 
 // to be able to get all workouts tied to a specific user for the history page
 workoutRouter.get('/:email', (req, res, next) => {
-    connection.connect((err) => {
-        if (err) {
-            console.error('Error connecting to the database:', err.stack);
-            return;
-        }
     
-        console.log('Connected to the database');
-    })
 
     const userEmail = req.params.email
     const selectQuery = 'SELECT exercise, date FROM workouts WHERE user = ?';
@@ -51,15 +52,6 @@ workoutRouter.get('/:email', (req, res, next) => {
 workoutRouter.post('/', (req, res, next) => {
     console.log('received post request for workout with info: ', req.body);
 
-    connection.connect((err) => {
-        if (err) {
-            console.error('Error connecting to the database:', err.stack);
-            return res.status(500).send();
-        }
-    
-        console.log('Connected to the database');
-    })
-
     const insertQuery = 'INSERT INTO workouts (user, exercise, date) VALUES (?, ?, CURRENT_DATE())';
 
     connection.query(insertQuery, [req.body.user.email, req.body.name], (error, results, fields) => {
@@ -74,8 +66,6 @@ workoutRouter.post('/', (req, res, next) => {
             res.status(404).send('Workout not inserted.');
         }
     });  
-    
-    connection.end();
 });
 
 
