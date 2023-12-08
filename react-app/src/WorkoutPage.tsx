@@ -4,6 +4,7 @@ import MuscleFilter from './MuscleFilter.tsx';
 import EquipmentFilter from './EquipmentFilter.tsx';
 import "./WorkoutPage.css";
 import { array } from 'prop-types';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Muscle {
   id: number;
@@ -82,6 +83,7 @@ const WorkoutExerciseList: React.FC<ExerciseListProps> = ({ selectedMuscle, onMu
           {exerciseData.map((exercise) => (
             <div key={exercise.id} >
               <p>{exercise.name}</p>
+
             </div>
           ))}
         </div>
@@ -98,7 +100,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
   const [isNewWorkout, setIsNewWorkout] = useState(false);
   const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: [], Weight: [] });
-  const [addingExercise, addExercise] = useState(false)
+  const [isAddingExercise, setIsAddingExercise] = useState(false)
 
   const handleMuscleSelect = (muscle: Muscle | null) => {
     setSelectedMuscle(muscle);
@@ -113,6 +115,19 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
     setIsNewWorkout(true);
   }
 
+  const navigate = useNavigate();
+  const handleSaveWorkout = () => {
+    // TODO: Implement save workout logic
+    {/* TODO: The save workout will then put all of the
+        Exercises into the db */}
+    console.log('Saving workout:', workout);
+    navigate('/history');
+  };
+
+  const handleAddNewExercise = () => {
+    setIsAddingExercise(true);
+    console.log("Add new Exercise, shows exercise list and able to click")
+  }
 
   const handleAddToWorkout = (exerciseId: number) => {
     if (!workout.exercise.includes(exerciseId)) {
@@ -162,33 +177,39 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
 
       {isNewWorkout && (
         <div className='NewWorkout'>
-          <div>
-            <div className='ExerciseBox'>
-              <WorkoutExerciseList
-                onMuscleSelect={handleMuscleSelect}
-                onEquipmentSelect={handleEquipmentSelect}
-                selectedMuscle={selectedMuscle}
-                selectedEquipment={selectedEquipment}
-              />
+          {isAddingExercise && (
+            <div>
+              <div className='ExerciseBox'>
+                <WorkoutExerciseList
+                  onMuscleSelect={handleMuscleSelect}
+                  onEquipmentSelect={handleEquipmentSelect}
+                  selectedMuscle={selectedMuscle}
+                  selectedEquipment={selectedEquipment}
+                />
+              </div>
             </div>
-          </div>
+          )}
+          {!isAddingExercise && (
+            <div>
+              <button onClick={() => handleAddNewExercise()}>Add a new Exercise</button>
+            </div>
+          )}
 
           <div>
-            <button onClick={() => setIsNewWorkout(false)}>Cancel / Return</button>
+            <button onClick={() => { { !isAddingExercise && (setIsNewWorkout(false)); }; { isAddingExercise && (setIsAddingExercise(false)); } }}>Cancel / Return</button>
           </div>
           {workout.exercise.length > 0 && (
             <div>
-              <button> Save Workout </button>
-              {/* TODO: The save workout will then put all of the
-        Exercises into the db */}
+              <button onClick={() => handleSaveWorkout}> Save Workout </button>
             </div>
           )}
 
         </div>
-      )}
+      )
+      }
 
 
-    </div>
+    </div >
   );
 };
 export default WorkoutPage;
