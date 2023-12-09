@@ -31,7 +31,7 @@ workoutRouter.get('/:email', (req, res, next) => {
     
 
     const userEmail = req.params.email
-    const selectQuery = 'SELECT exercise, date FROM workouts WHERE user = ?';
+    const selectQuery = 'SELECT id FROM workouts WHERE user = ?';
     
     connection.query(selectQuery, [userEmail], (err, results, fields) => {
         if (err) {
@@ -39,8 +39,23 @@ workoutRouter.get('/:email', (req, res, next) => {
             return;
         }
         
+        toReturn = [];
+
         if (results.length > 0) {
-            res.send(results);
+            for (let i = 0 ; i < results.length ; i++) {
+                const query = 'SELECT name, date, reps, sets, weight FROM exercises WHERE workout = ?'
+                const workoutID = results[i];
+                toReturn.push(workoutID);
+                connection.query(query, [workoutID], (err, results, fields) => {
+                    if (err) {
+                        return res.status(500).send();
+                    }
+
+                    toReturn.push(results);                    
+                })
+            }
+
+            res.send(toReturn);
         } else {
             res.status(404).send();
         }
@@ -48,20 +63,20 @@ workoutRouter.get('/:email', (req, res, next) => {
 });
 
 
-// posts a workout to the database
+// posts a workout to the database and returns the associated ID
 workoutRouter.post('/', (req, res, next) => {
     console.log('received post request for workout with info: ', req.body);
 
-    const insertQuery = 'INSERT INTO workouts (user, exercise, date) VALUES (?, ?, CURRENT_DATE())';
+    const insertQuery = 'INSERT INTO workouts (user_id) VALUES (?)';
 
-    connection.query(insertQuery, [req.body.user.email, req.body.name], (error, results, fields) => {
+    connection.query(insertQuery, [req.body.email], (error, results, fields) => {
         if (error) {
-        console.error('Error inserting data:', error);
-        return res.status(500).send();
+            console.error('Error inserting data:', error);
+            return res.status(500).send();
         }
     
         if (results && results.affectedRows > 0) {
-            res.status(201).send();
+            res.status(201).json({ id: results.insertId });
         } else {
             res.status(404).send('Workout not inserted.');
         }
