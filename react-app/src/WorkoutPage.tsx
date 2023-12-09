@@ -5,6 +5,7 @@ import EquipmentFilter from './EquipmentFilter.tsx';
 import "./WorkoutPage.css";
 import { array } from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
+import { PopupCancelledError } from '@auth0/auth0-react';
 
 interface Muscle {
   id: number;
@@ -24,9 +25,9 @@ interface Exercise {
 }
 
 interface Workout {
-  exercise: Array<number>;
+  exercise: Array<Exercise>;
   reps: Array<number>;
-  Weight: Array<number>;
+  weight: Array<number>;
 }
 
 interface ExerciseListProps {
@@ -34,9 +35,18 @@ interface ExerciseListProps {
   onMuscleSelect: (muscle: Muscle | null) => void;
   selectedEquipment: Equipment | null;
   onEquipmentSelect: (muscle: Muscle | null) => void;
+  onExerciseSelect: (exercise: Exercise) => void;
 }
 
-const WorkoutExerciseList: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSelect, selectedEquipment, onEquipmentSelect, onExerciseSelect }) => {
+const WorkoutExerciseList: React.FC<ExerciseListProps> = ({
+  selectedMuscle,
+  onMuscleSelect,
+  selectedEquipment,
+  onEquipmentSelect,
+
+
+
+  onExerciseSelect }) => {
   const [exerciseData, setExerciseData] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -83,7 +93,7 @@ const WorkoutExerciseList: React.FC<ExerciseListProps> = ({ selectedMuscle, onMu
           {exerciseData.map((exercise) => (
             <div key={exercise.id} >
               <p>{exercise.name}</p>
-
+              <button onClick={() => onExerciseSelect(exercise)}>Add to Workout</button>
             </div>
           ))}
         </div>
@@ -99,8 +109,10 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const [selectedMuscle, setSelectedMuscle] = useState<Muscle | null>(null);
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
   const [isNewWorkout, setIsNewWorkout] = useState(false);
-  const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: [], Weight: [] });
+  const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: [], weight: [] });
   const [isAddingExercise, setIsAddingExercise] = useState(false)
+  const [reps, setReps] = useState({});
+  const [weights, setWeights] = useState({});
 
   const handleMuscleSelect = (muscle: Muscle | null) => {
     setSelectedMuscle(muscle);
@@ -129,17 +141,20 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
     console.log("Add new Exercise, shows exercise list and able to click")
   }
 
-  const handleAddToWorkout = (exerciseId: number) => {
-    if (!workout.exercise.includes(exerciseId)) {
+  const handleAddToWorkout = (exercise: Exercise) => {
+    if (!workout.exercise.some((ex) => ex.id === exercise.id)) {
       setWorkout(prevWorkout => ({
         ...prevWorkout,
-        exercise: [...prevWorkout.exercise, exerciseId],
+        exercise: [...prevWorkout.exercise, exercise],
       }));
-      console.log(`Exercise ${exerciseId} added to the workout!`);
+      setIsAddingExercise(false);
+      console.log(`Exercise ${exercise.name} added to the workout!`);
+      console.log(`Exercise array is now ${workout.exercise}`)
     } else {
-      console.log(`Exercise ${exerciseId} is already in the workout.`);
+      console.log(`Exercise ${exercise.name} is already in the workout.`);
     }
   }
+
 
 
 
@@ -185,18 +200,52 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                   onEquipmentSelect={handleEquipmentSelect}
                   selectedMuscle={selectedMuscle}
                   selectedEquipment={selectedEquipment}
+                  onExerciseSelect={handleAddToWorkout}
                 />
               </div>
             </div>
           )}
           {!isAddingExercise && (
             <div>
-              <button onClick={() => handleAddNewExercise()}>Add a new Exercise</button>
+              {workout.exercise.map((exercise) => (
+                <li key={exercise.id}>
+                  <span>{exercise.name}</span>
+                  <form>
+                    <label>
+                      Reps:
+                      <input
+                        type="number"
+                        placeholder="Reps"
+                        value={workout.reps[exercise.id] || ''}
+                        onChange={(e) => setReps({ ...workout.reps, [exercise.id]: e.target.value })}
+                      />
+                    </label>
+                    <label>
+                      Weight:
+                      <input
+                        type="number"
+                        placeholder="Weight"
+                        value={workout.weight[exercise.id] || ''}
+                        onChange={(e) => setWeights({ ...workout.weight, [exercise.id]: e.target.value })}
+                      />
+                    </label>
+                  </form>
+                </li>
+              ))}
+              <div>
+                <button onClick={() => handleAddNewExercise()}>Add a new Exercise</button>
+              </div>
             </div>
           )}
 
           <div>
-            <button onClick={() => { { !isAddingExercise && (setIsNewWorkout(false)); }; { isAddingExercise && (setIsAddingExercise(false)); } }}>Cancel / Return</button>
+            <button onClick={() => {
+              if (!isAddingExercise) {
+                setIsNewWorkout(false);
+              } else {
+                setIsAddingExercise(false);
+              }
+            }}>Cancel / Return</button>
           </div>
           {workout.exercise.length > 0 && (
             <div>

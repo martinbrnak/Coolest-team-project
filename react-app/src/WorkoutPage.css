@@ -1,6 +1,6 @@
 .NewWorkout {
   display: flex;
-  width: 600px;
+  width: 900px;
   height: 600px;
 }
 
@@ -17,12 +17,12 @@
   /* Include padding and border in the box's total height */
   border: 2px solid #ccc;
   padding: 20px;
-  width: calc(25% - 55px);
+  width: auto;
   /* 4 items per row */
-  max-width: calc(15% - 55px);
+  max-width: auto;
   /* Set a maximum width */
   min-height: 100px;
-  max-height: 100px;
+  max-height: auto;
   /* Set a fixed maximum height */
   overflow-y: auto;
   /* Enable vertical scrolling for overflow content */
