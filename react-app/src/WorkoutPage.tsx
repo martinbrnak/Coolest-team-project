@@ -5,6 +5,7 @@ import EquipmentFilter from './EquipmentFilter.tsx';
 import "./WorkoutPage.css";
 import { array } from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 import { PopupCancelledError } from '@auth0/auth0-react';
 
 interface Muscle {
@@ -113,6 +114,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const [isAddingExercise, setIsAddingExercise] = useState(false)
   const [reps, setReps] = useState({});
   const [weights, setWeights] = useState({});
+  const { user, isAuthenticated } = useAuth0();
 
   const handleMuscleSelect = (muscle: Muscle | null) => {
     setSelectedMuscle(muscle);
@@ -128,10 +130,43 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   }
 
   const navigate = useNavigate();
-  const handleSaveWorkout = () => {
-    // TODO: Implement save workout logic
-    {/* TODO: The save workout will then put all of the
-        Exercises into the db */}
+  const handleSaveWorkout = async () => {
+    if (isAuthenticated) {
+      const response = await fetch('http://localhost:8000/workout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+      })
+
+      if (response.status === 201) {
+        const responseData = await response.json();
+        const workoutid = responseData.id;
+
+        for (let i = 0; i < workout.exercise.length; i++) {
+          const exerciseToAdd = {
+            workout: workoutid,
+            reps: workout.reps[i],
+            weight: workout.Weight[i],
+            name: workout.exercise[i],   // RIGHT NOW THIS IS AN ID, BUT SHOULD BE CHANGED TO BE A NAME LATER
+            // sets: workout.sets[i]    THIS IS NOT ADDDED YET, BUT FUNCTIONALITY SHOULD BE IN LATER
+            sets: 0 // temp so it can run
+          }
+          const response = await fetch('http://localhost:8000/exercise', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(exerciseToAdd)
+          })
+        }
+      } else {
+        console.log('uh oh! adding workout failed');
+        return;
+      }
+
+    }
     console.log('Saving workout:', workout);
     navigate('/history');
   };
