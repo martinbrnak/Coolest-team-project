@@ -28,7 +28,7 @@ connection.connect((err) => {
 
 // to be able to get all workouts tied to a specific user for the history page
 workoutRouter.get('/:email', (req, res, next) => {
-    
+    console.log("received a get request for", req.params.email);
 
     const userEmail = req.params.email
     const selectQuery = 'SELECT id FROM workouts WHERE user = ?';
@@ -40,6 +40,8 @@ workoutRouter.get('/:email', (req, res, next) => {
         }
         
         toReturn = [];
+
+        console.log("results of select query", results);
 
         if (results.length > 0) {
             for (let i = 0 ; i < results.length ; i++) {

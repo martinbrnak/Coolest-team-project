@@ -65,23 +65,23 @@ const ExerciseDetails: React.FC<ExerciseDetailsProps> = ({ exercise, onClose }) 
     onClose();
   };
 
-  const addExerciseToWorkout = async () => {
-    if (isAuthenticated) {
-      const name = exercise.name;
-      const response = await fetch('http://localhost:8000/workout/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ user, name })
-      })
-    }
-  }
+  // THIS WILL NO LONGER WORK SINCE ADDING THE WORKOUT PAGE
+  // const addExerciseToWorkout = async () => {
+  //   if (isAuthenticated) {
+  //     const name = exercise.name;
+  //     const response = await fetch('http://localhost:8000/workout/', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ user, name })
+  //     })
+  //   }
+  // }
 
   return (
     <div className="exercise-details-modal">
       <div className="button-container">
-        <button className="add-button" onClick={addExerciseToWorkout}>+ Add to workout</button>
         <button className="close-button" onClick={closeModal}>X</button>
       </div>
       <strong>{exercise.name}</strong>
