@@ -131,7 +131,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
       if (response.status === 201) {
         const responseData = await response.json();
         const workoutid = responseData.id;
-        // now we need to loop on workout and add each exercise
+       
         for (let i = 0; i < workout.exercise.length ; i++) {
           const exerciseToAdd = {
             workout: workoutid,
