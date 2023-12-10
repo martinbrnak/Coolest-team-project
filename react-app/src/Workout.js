@@ -31,33 +31,39 @@ workoutRouter.get('/:email', (req, res, next) => {
     console.log("received a get request for", req.params.email);
 
     const userEmail = req.params.email
-    const selectQuery = 'SELECT id FROM workouts WHERE user = ?';
+    const selectQuery = 'SELECT id FROM workouts WHERE user_id = ?';
     
     connection.query(selectQuery, [userEmail], (err, results, fields) => {
         if (err) {
             res.status(500).send();
             return;
         }
-        
-        toReturn = [];
 
+        let toSend = [];
+        
         console.log("results of select query", results);
 
         if (results.length > 0) {
-            for (let i = 0 ; i < results.length ; i++) {
-                const query = 'SELECT name, date, reps, sets, weight FROM exercises WHERE workout = ?'
-                const workoutID = results[i];
-                toReturn.push(workoutID);
-                connection.query(query, [workoutID], (err, results, fields) => {
-                    if (err) {
-                        return res.status(500).send();
-                    }
-
-                    toReturn.push(results);                    
-                })
+            for (let i = 0; i < results.length ; i++) {
+                toSend.push(results[i].id);
             }
+            res.send(toSend);
+            // for (let i = 0 ; i < results.length ; i++) {
+            //     const query = 'SELECT name, date, reps, sets, weight FROM exercises WHERE workout = ?'
+            //     const workoutID = results[i].id;
+            //     console.log('getting exercise info for workout', workoutID);
+            //     toReturn.push(results[i]);
+            //     connection.query(query, [workoutID], (err, results, fields) => {
+            //         if (err) {
+            //             return res.status(500).send();
+            //         }
 
-            res.send(toReturn);
+            //         console.log('query for workout', workoutID, 'returned', results)
+            //         toReturn.push(results);                    
+            //     })
+            // }
+
+            // res.send(toReturn);
         } else {
             res.status(404).send();
         }
