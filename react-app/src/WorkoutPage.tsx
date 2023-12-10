@@ -130,7 +130,9 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   }
 
   const navigate = useNavigate();
+
   const handleSaveWorkout = async () => {
+    console.log('handle save workout called properly');
     if (isAuthenticated) {
       const response = await fetch('http://localhost:8000/workout', {
         method: 'POST',
@@ -145,13 +147,14 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
         const workoutid = responseData.id;
 
         for (let i = 0; i < workout.exercise.length; i++) {
+          const exerciseData = workout.exercise[i];
           const exerciseToAdd = {
             workout: workoutid,
-            reps: workout.reps[i],
-            weight: workout.Weight[i],
-            name: workout.exercise[i],   // RIGHT NOW THIS IS AN ID, BUT SHOULD BE CHANGED TO BE A NAME LATER
-            // sets: workout.sets[i]    THIS IS NOT ADDDED YET, BUT FUNCTIONALITY SHOULD BE IN LATER
-            sets: 0 // temp so it can run
+            reps: workout.reps[exerciseData.id],
+            weight: workout.weight[exerciseData.id],
+            name: exerciseData.name,
+            // sets: workout.sets[exerciseData.id]    THIS IS NOT ADDDED YET, BUT FUNCTIONALITY SHOULD BE IN LATER
+            sets: 2 // temp so it can run
           }
           const response = await fetch('http://localhost:8000/exercise', {
             method: 'POST',
@@ -284,7 +287,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
           </div>
           {workout.exercise.length > 0 && (
             <div>
-              <button onClick={() => handleSaveWorkout}> Save Workout </button>
+              <button onClick={() => handleSaveWorkout()}> Save Workout </button>
             </div>
           )}
 
