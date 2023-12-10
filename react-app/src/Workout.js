@@ -48,22 +48,7 @@ workoutRouter.get('/:email', (req, res, next) => {
                 toSend.push(results[i].id);
             }
             res.send(toSend);
-            // for (let i = 0 ; i < results.length ; i++) {
-            //     const query = 'SELECT name, date, reps, sets, weight FROM exercises WHERE workout = ?'
-            //     const workoutID = results[i].id;
-            //     console.log('getting exercise info for workout', workoutID);
-            //     toReturn.push(results[i]);
-            //     connection.query(query, [workoutID], (err, results, fields) => {
-            //         if (err) {
-            //             return res.status(500).send();
-            //         }
-
-            //         console.log('query for workout', workoutID, 'returned', results)
-            //         toReturn.push(results);                    
-            //     })
-            // }
-
-            // res.send(toReturn);
+            
         } else {
             res.status(404).send();
         }
