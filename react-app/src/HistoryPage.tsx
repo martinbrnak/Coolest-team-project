@@ -1,11 +1,12 @@
 // HistoryPage.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useNavigate } from 'react-router-dom';
+import { useAsyncError, useNavigate } from 'react-router-dom';
 
 const HistoryPage: React.FC = () => {
   const { user, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
+  const [historyData, setHistoryData] = useState<any[]>([]);
 
   const handleDisplayHistory = async () => {
     console.log('attempting to display history');
@@ -22,7 +23,7 @@ const HistoryPage: React.FC = () => {
     const response = await fetch(fetchURL);
     if (response.ok) {
       const responseData = await response.json();
-      console.log(responseData)
+      // console.log(responseData)
       const ret = [] as any;
       
       for (let i = 0 ; i < responseData.length ; i++) {
@@ -30,12 +31,14 @@ const HistoryPage: React.FC = () => {
         const completeURL = 'http://localhost:8000/exercise/' + workoutid; // MAY GET STRING TYPE ERROR
         const res = await fetch(completeURL);
         if (res.ok) {
-          const resData = await response.json();
+          const resData = await res.json();
           ret.push(resData);
         }
       }
 
-      return ret;
+      console.log(ret);
+      setHistoryData(ret);
+      return;
     } else {
       console.log('an issue came up with fetching the data')
       return;
@@ -43,10 +46,43 @@ const HistoryPage: React.FC = () => {
 
   }
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log('getting history data')
+      handleDisplayHistory()
+    }
+  }, [isAuthenticated])
+
+
+  const formatDate = (dateString: string): string => {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
 
   return (
     <div>
-      {/* Empty placeholder component */}
+      {isAuthenticated && (
+        <div>
+          <h1>History</h1>
+          {historyData.map((subArray, index) => (
+            <div key={index}>
+              <strong>Workout {index + 1} ({formatDate(subArray[0].date)}):</strong>
+              {subArray.map((item, subIndex) => (
+                <div key={subIndex}>
+                  {/* Display relevant data from 'item' in the subarray */}
+                  <p>{item.name}: {item.sets} sets of {item.reps}, with weight {item.weight}</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )}
+      {!isAuthenticated && (
+        <div>
+          <h2>You need to be logged in to view history</h2>
+          <button onClick={() => navigate('/login')}>Login</button>
+        </div>
+      )}
     </div>
   );
 };
