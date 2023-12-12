@@ -17,12 +17,12 @@
   /* Include padding and border in the box's total height */
   border: 2px solid #ccc;
   padding: 20px;
-  width: auto;
+  min-width: 150px;
   /* 4 items per row */
-  max-width: auto;
+  max-width: 150px;
   /* Set a maximum width */
-  min-height: 100px;
-  max-height: auto;
+  min-height: 120px;
+  max-height: 120px;
   /* Set a fixed maximum height */
   overflow-y: auto;
   /* Enable vertical scrolling for overflow content */

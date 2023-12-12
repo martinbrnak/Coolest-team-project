@@ -1,0 +1,18 @@
+.fixed-bottom-container {
+  position: fixed;
+  bottom: -300px;
+  right: 20px;
+  height: 80%;
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+ .fixed-bottom-container button {
+  margin-top: 10px; /* Adjusted margin-top value */
+  margin-right: 10px;
+  font-size: 20px;
+  padding: 15px 15px;
+}
