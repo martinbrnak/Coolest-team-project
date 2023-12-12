@@ -28,9 +28,9 @@ interface Exercise {
 
 interface Workout {
   exercise: Array<Exercise>;
-  reps: Array<number>;
-  weight: Array<number>;
-  sets: Array<number>;
+  reps: Map<number, number>;
+  weight: Map<number, number>;
+  sets: Map<number, number>;
 }
 
 interface ExerciseListProps {
@@ -113,11 +113,11 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const [selectedMuscle, setSelectedMuscle] = useState<Muscle | null>(null);
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
   const [isNewWorkout, setIsNewWorkout] = useState(false);
-  const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 }) });
+  const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: new Map(), weight: new Map(), sets: new Map() });
   const [isAddingExercise, setIsAddingExercise] = useState(false)
-  const [reps, setReps] = useState({});
-  const [weights, setWeights] = useState({});
-  const [set, setSets] = useState({});
+  const [reps, setReps] = useState(new Map<number, number>);
+  const [weights, setWeights] = useState(new Map<number, number>);
+  const [sets, setSets] = useState(new Map<number, number>);
   const { user, isAuthenticated } = useAuth0();
 
   const handleMuscleSelect = (muscle: Muscle | null) => {
@@ -154,11 +154,15 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
           const exerciseData = workout.exercise[i];
           const exerciseToAdd = {
             workout: workoutid,
-            reps: workout.reps[exerciseData.id],
-            weight: workout.weight[exerciseData.id],
+            reps: reps.get(exerciseData.id),
+            weight: weights.get(exerciseData.id),
             name: exerciseData.name,
-            sets: workout.sets[exerciseData.id] 
+            sets: sets.get(exerciseData.id)
           }
+          console.log('next is the exercise');
+          console.log(exerciseData.id)
+          console.log(exerciseToAdd);
+          console.log(reps);
           const response = await fetch('http://localhost:8000/exercise', {
             method: 'POST',
             headers: {
@@ -199,7 +203,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
 
 
   const resetWorkoutData = () => {
-    setWorkout({ exercise: [], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 }) });
+    setWorkout({ exercise: [], reps: new Map(), weight: new Map(), sets: new Map() });
   }
 
   const handleStartPreset = (presetName: string) => {
@@ -210,7 +214,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
     let exercise1;
     let exercise2;
     let exercise3;
-    if (presetName == 'Pull') {
+    if (presetName === 'Pull') {
       exercise1 = {
         id: 74,
         name: "Biceps Curls With Barbell",
@@ -230,7 +234,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
         equipment: 0,
       };
     }
-    else if (presetName == 'Push') {
+    else if (presetName === 'Push') {
       exercise1 = {
         id: 192,
         name: "Bench Press",
@@ -250,7 +254,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
         equipment: 0,
       };
     }
-    else if (presetName == 'Leg') {
+    else if (presetName === 'Leg') {
       exercise1 = {
         id: 1101,
         name: "Barbell Squat",
@@ -274,11 +278,26 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
       console.log(`Unknown Preset Error`)
     }
     console.log(exercise1.name, exercise2.name, exercise3.name)
-    setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 })});
+    setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: new Map(), weight: new Map(), sets: new Map() });
   };
 
 
+  useEffect(() => {
+    // Update state when workout.exercise changes
+    workout.exercise.forEach((exercise) => {
+      if (!reps.has(exercise.id)) {
+        setReps(new Map(reps).set(exercise.id, 0));
+      }
 
+      if (!weights.has(exercise.id)) {
+        setWeights(new Map(weights).set(exercise.id, 0));
+      }
+
+      if (!sets.has(exercise.id)) {
+        setSets(new Map(sets).set(exercise.id, 0));
+      }
+    });
+  }, [workout.exercise, reps, weights, sets]);
 
   return (
     <div>
@@ -318,8 +337,8 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                       <input
                         type="number"
                         placeholder="Reps"
-                        value={workout.reps[exercise.id] || 0}
-                        onChange={(e) => setReps({ ...workout.reps, [exercise.id]: parseInt(e.target.value, 10) || 0})}
+                        defaultValue={weights.get(exercise.id) ?? 0}
+                        onChange={(e) => setReps(new Map(reps).set(exercise.id, isNaN(parseInt(e.target.value, 10)) ? 0 : parseInt(e.target.value, 10)))}
                       />
                     </label>
                     <label>
@@ -327,8 +346,8 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                       <input
                         type="number"
                         placeholder="Weight"
-                        value={workout.weight[exercise.id] || 0}
-                        onChange={(e) => setWeights({ ...workout.weight, [exercise.id]: parseInt(e.target.value, 10) || 0 })}
+                        defaultValue={weights.get(exercise.id) ?? 0}
+                        onChange={(e) => setWeights(new Map(weights).set(exercise.id, isNaN(parseInt(e.target.value, 10)) ? 0 : parseInt(e.target.value, 10)))}
                       />
                     </label>
                     <label>
@@ -336,8 +355,8 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                       <input
                         type="number"
                         placeholder="Sets"
-                        value={workout.sets[exercise.id] || 0}
-                        onChange={(e) => setSets({ ...workout.sets, [exercise.id]: parseInt(e.target.value, 10) || 0 })}
+                        defaultValue={sets.get(exercise.id) ?? 0}
+                        onChange={(e) => setSets(new Map(sets).set(exercise.id, isNaN(parseInt(e.target.value, 10)) ? 0 : parseInt(e.target.value, 10)))}
                       />
                     </label>
                   </form>
