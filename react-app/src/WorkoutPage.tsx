@@ -29,6 +29,7 @@ interface Workout {
   exercise: Array<Exercise>;
   reps: Array<number>;
   weight: Array<number>;
+  sets: Array<number>;
 }
 
 interface ExerciseListProps {
@@ -110,10 +111,11 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const [selectedMuscle, setSelectedMuscle] = useState<Muscle | null>(null);
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
   const [isNewWorkout, setIsNewWorkout] = useState(false);
-  const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: [], weight: [] });
+  const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: [], weight: [], sets: [] });
   const [isAddingExercise, setIsAddingExercise] = useState(false)
   const [reps, setReps] = useState({});
   const [weights, setWeights] = useState({});
+  const [set, setSets] = useState({});
   const { user, isAuthenticated } = useAuth0();
 
   const handleMuscleSelect = (muscle: Muscle | null) => {
@@ -153,8 +155,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
             reps: workout.reps[exerciseData.id],
             weight: workout.weight[exerciseData.id],
             name: exerciseData.name,
-            // sets: workout.sets[exerciseData.id]    THIS IS NOT ADDDED YET, BUT FUNCTIONALITY SHOULD BE IN LATER
-            sets: 2 // temp so it can run
+            sets: workout.sets[exerciseData.id] 
           }
           const response = await fetch('http://localhost:8000/exercise', {
             method: 'POST',
@@ -214,6 +215,10 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
     }
   };
 
+  const resetWorkoutData = () => {
+    setWorkout({ exercise: [], reps: [], weight: [], sets: [] });
+  }
+
 
 
   return (
@@ -254,8 +259,8 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                       <input
                         type="number"
                         placeholder="Reps"
-                        value={workout.reps[exercise.id] || ''}
-                        onChange={(e) => setReps({ ...workout.reps, [exercise.id]: e.target.value })}
+                        value={workout.reps[exercise.id] || 0}
+                        onChange={(e) => setReps({ ...workout.reps, [exercise.id]: parseInt(e.target.value, 10) || 0})}
                       />
                     </label>
                     <label>
@@ -263,8 +268,17 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                       <input
                         type="number"
                         placeholder="Weight"
-                        value={workout.weight[exercise.id] || ''}
-                        onChange={(e) => setWeights({ ...workout.weight, [exercise.id]: e.target.value })}
+                        value={workout.weight[exercise.id] || 0}
+                        onChange={(e) => setWeights({ ...workout.weight, [exercise.id]: parseInt(e.target.value, 10) || 0 })}
+                      />
+                    </label>
+                    <label>
+                      Sets:
+                      <input
+                        type="number"
+                        placeholder="Sets"
+                        value={workout.sets[exercise.id] || 0}
+                        onChange={(e) => setSets({ ...workout.sets, [exercise.id]: parseInt(e.target.value, 10) || 0 })}
                       />
                     </label>
                   </form>
@@ -280,10 +294,12 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
             <button onClick={() => {
               if (!isAddingExercise) {
                 setIsNewWorkout(false);
+                resetWorkoutData();
               } else {
                 setIsAddingExercise(false);
               }
-            }}>Cancel / Return</button>
+            }}>Cancel / Return</button>    
+            {/* this ^^ needs to reset the workout field as well*/}
           </div>
           {workout.exercise.length > 0 && (
             <div>
