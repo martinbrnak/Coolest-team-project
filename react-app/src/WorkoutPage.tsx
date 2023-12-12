@@ -96,7 +96,6 @@ const WorkoutExerciseList: React.FC<ExerciseListProps> = ({
           {exerciseData.map((exercise) => (
             <div key={exercise.id} >
               <p>{exercise.name}</p>
-              <p>{exercise.id}</p>
               <button onClick={() => onExerciseSelect(exercise)}>Add to Workout</button>
             </div>
           ))}
@@ -269,29 +268,30 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
     // Update state when workout.exercise changes
     workout.exercise.forEach((exercise) => {
       if (!reps.has(exercise.id)) {
-        setReps(new Map(reps).set(exercise.id, 0));
+        setReps(new Map(reps).set(exercise.id, 1));
       }
 
       if (!weights.has(exercise.id)) {
-        setWeights(new Map(weights).set(exercise.id, 0));
+        setWeights(new Map(weights).set(exercise.id, 1));
       }
 
       if (!sets.has(exercise.id)) {
-        setSets(new Map(sets).set(exercise.id, 0));
+        setSets(new Map(sets).set(exercise.id, 1));
       }
     });
   }, [workout.exercise, reps, weights, sets]);
 
   return (
     <div>
-      <div className='NewBox'>
-        <button className='StartNewButton' onClick={handleStartNewWorkout}>Start new Workout</button>
-      </div>
+      
       <div className='PresetBox'>
         <h1>Select one from the following presets</h1>
         <button className='StartPresetButtons' onClick={() => handleStartPreset('Push')}>Push Day</button>
         <button className='StartPresetButtons' onClick={() => handleStartPreset('Pull')}>Pull Day</button>
         <button className='StartPresetButtons' onClick={() => handleStartPreset('Leg')}>Leg Day</button>
+      </div>
+      <div className='NewBox'>
+        <button className='StartNewButton' onClick={handleStartNewWorkout}>Start new Workout</button>
       </div>
   
       {isNewWorkout && (
@@ -320,8 +320,8 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                       <input
                         type="number"
                         placeholder="Reps"
-                        defaultValue={weights.get(exercise.id) ?? 0}
-                        onChange={(e) => setReps(new Map(reps).set(exercise.id, isNaN(parseInt(e.target.value, 10)) ? 0 : parseInt(e.target.value, 10)))}
+                        defaultValue={weights.get(exercise.id) ?? 1}
+                        onChange={(e) => setReps(new Map(reps).set(exercise.id, isNaN(parseInt(e.target.value, 10)) ? 1 : parseInt(e.target.value, 10)))}
                       />
                     </label>
                     <label>
@@ -329,8 +329,8 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                       <input
                         type="number"
                         placeholder="Weight"
-                        defaultValue={weights.get(exercise.id) ?? 0}
-                        onChange={(e) => setWeights(new Map(weights).set(exercise.id, isNaN(parseInt(e.target.value, 10)) ? 0 : parseInt(e.target.value, 10)))}
+                        defaultValue={weights.get(exercise.id) ?? 1}
+                        onChange={(e) => setWeights(new Map(weights).set(exercise.id, isNaN(parseInt(e.target.value, 10)) ? 1 : parseInt(e.target.value, 10)))}
                       />
                     </label>
                     <label>
@@ -338,8 +338,8 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                       <input
                         type="number"
                         placeholder="Sets"
-                        defaultValue={sets.get(exercise.id) ?? 0}
-                        onChange={(e) => setSets(new Map(sets).set(exercise.id, isNaN(parseInt(e.target.value, 10)) ? 0 : parseInt(e.target.value, 10)))}
+                        defaultValue={sets.get(exercise.id) ?? 1}
+                        onChange={(e) => setSets(new Map(sets).set(exercise.id, isNaN(parseInt(e.target.value, 10)) ? 1 : parseInt(e.target.value, 10)))}
                       />
                     </label>
                   </form>

@@ -61,7 +61,7 @@ const HistoryPage: React.FC = () => {
               <strong>Workout {index + 1} ({formatDate(subArray[0].date)}):</strong>
               {subArray.map((item, subIndex) => (
                 <div key={subIndex}>
-                  <p>{item.name}: {item.sets} sets of {item.reps}, with weight {item.weight}</p>
+                  <p>{item.name}: {item.sets} sets of {item.reps}, with weight {item.weight}lbs</p>
                 </div>
               ))}
             </div>
