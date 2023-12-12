@@ -31,7 +31,7 @@ workoutRouter.get('/:email', (req, res, next) => {
     console.log("received a get request for", req.params.email);
 
     const userEmail = req.params.email
-    const selectQuery = 'SELECT id FROM workouts WHERE user_id = ?';
+    const selectQuery = 'SELECT id FROM workouts WHERE user_id = ? ORDER BY id DESC';
     
     connection.query(selectQuery, [userEmail], (err, results, fields) => {
         if (err) {
