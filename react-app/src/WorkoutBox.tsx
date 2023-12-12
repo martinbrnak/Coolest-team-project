@@ -10,8 +10,6 @@ const WorkoutBox: React.FC = () => {
     if (isAuthenticated) {
       navigate('/workout')
     } else {
-      // Redirect to the login page if not logged in
-      console.log('Redirecting to login page...');
       loginWithRedirect();
     }
   };

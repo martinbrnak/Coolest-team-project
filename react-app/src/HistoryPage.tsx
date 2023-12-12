@@ -10,16 +10,13 @@ const HistoryPage: React.FC = () => {
   const [historyData, setHistoryData] = useState<any[]>([]);
 
   const handleDisplayHistory = async () => {
-    console.log('attempting to display history');
     if (!isAuthenticated) {
-      console.log('user is not authenticated');
       navigate('/home');
     }
 
     const fetchString = 'http://localhost:8000/workout/';
     const email = user?.email;
     const fetchURL = fetchString + email;
-    console.log(fetchURL);
 
     const response = await fetch(fetchURL);
     if (response.ok) {
@@ -36,18 +33,15 @@ const HistoryPage: React.FC = () => {
         }
       }
 
-      console.log(ret);
       setHistoryData(ret);
       return;
     } else {
-      console.log('an issue came up with fetching the data');
       return;
     }
   };
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log('getting history data');
       handleDisplayHistory();
     }
   }, [isAuthenticated]);

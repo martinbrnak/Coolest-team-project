@@ -18,11 +18,8 @@ import WorkoutPage from './WorkoutPage.tsx';
 
 const App: React.FC = () => {
   const { user, isAuthenticated } = useAuth0();
-  console.log(JSON.stringify(user));
 
   const handleLogin = async () => {
-    console.log('handle login is called');
-    console.log(isAuthenticated);
     if (isAuthenticated) {
       const response = await fetch('http://localhost:8000/login/', {
         method: 'POST',
@@ -48,7 +45,6 @@ const App: React.FC = () => {
           <main className="main-content">
             <Routes>
               <Route path="/history" element={<HistoryPage />} />
-              <Route path="/plans" element={<PlansPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/home" element={<HomePage />} />
               <Route path="/exercises" element={<ExercisesPage />} />

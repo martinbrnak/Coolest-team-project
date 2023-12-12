@@ -47,7 +47,7 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ selectedMuscle, onMuscleSel
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const url = "https://wger.de/api/v2/exercise/?language=2"
+        const url = "https://wger.de/api/v2/exercise/?language=2&limit=100"
         var apiUrl = selectedMuscle
           ? url + `&muscles=${selectedMuscle.id}`
           : url

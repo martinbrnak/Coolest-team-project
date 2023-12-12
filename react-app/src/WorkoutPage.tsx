@@ -136,7 +136,6 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const navigate = useNavigate();
 
   const handleSaveWorkout = async () => {
-    console.log('handle save workout called properly');
     if (isAuthenticated) {
       const response = await fetch('http://localhost:8000/workout', {
         method: 'POST',
@@ -159,10 +158,6 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
             name: exerciseData.name,
             sets: sets.get(exerciseData.id)
           }
-          console.log('next is the exercise');
-          console.log(exerciseData.id)
-          console.log(exerciseToAdd);
-          console.log(reps);
           const response = await fetch('http://localhost:8000/exercise', {
             method: 'POST',
             headers: {
@@ -172,18 +167,15 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
           })
         }
       } else {
-        console.log('uh oh! adding workout failed');
         return;
       }
 
     }
-    console.log('Saving workout:', workout);
     navigate('/history');
   };
 
   const handleAddNewExercise = () => {
     setIsAddingExercise(true);
-    console.log("Add new Exercise, shows exercise list and able to click")
   }
 
   const handleAddToWorkout = (exercise: Exercise) => {
@@ -193,11 +185,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
         exercise: [...prevWorkout.exercise, exercise],
       }));
       setIsAddingExercise(false);
-      console.log(`Exercise ${exercise.name} added to the workout!`);
-      console.log(`Exercise array is now ${workout.exercise}`)
-    } else {
-      console.log(`Exercise ${exercise.name} is already in the workout.`);
-    }
+    } 
   }
 
 
@@ -209,7 +197,6 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const handleStartPreset = (presetName: string) => {
     // Placeholder for handling the start of a preset workout
     setIsNewWorkout(true);
-    console.log(`Starting ${presetName} workout...`);
     resetWorkoutData();
     let exercise1;
     let exercise2;
@@ -274,10 +261,6 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
         equipment: 0,
       };
     }
-    else {
-      console.log(`Unknown Preset Error`)
-    }
-    console.log(exercise1.name, exercise2.name, exercise3.name)
     setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: new Map(), weight: new Map(), sets: new Map() });
   };
 

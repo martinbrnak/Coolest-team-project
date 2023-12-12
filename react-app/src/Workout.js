@@ -23,12 +23,10 @@ connection.connect((err) => {
         return;
     }
 
-    console.log('Connected to the database');
 })
 
 // to be able to get all workouts tied to a specific user for the history page
 workoutRouter.get('/:email', (req, res, next) => {
-    console.log("received a get request for", req.params.email);
 
     const userEmail = req.params.email
     const selectQuery = 'SELECT id FROM workouts WHERE user_id = ? ORDER BY id DESC';
@@ -40,8 +38,6 @@ workoutRouter.get('/:email', (req, res, next) => {
         }
 
         let toSend = [];
-        
-        console.log("results of select query", results);
 
         if (results.length > 0) {
             for (let i = 0; i < results.length ; i++) {
@@ -58,7 +54,6 @@ workoutRouter.get('/:email', (req, res, next) => {
 
 // posts a workout to the database and returns the associated ID
 workoutRouter.post('/', (req, res, next) => {
-    console.log('received post request for workout with info: ', req.body);
 
     const insertQuery = 'INSERT INTO workouts (user_id) VALUES (?)';
 

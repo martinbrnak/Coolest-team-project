@@ -19,13 +19,10 @@ connection.connect((err) => {
     if (err) {
         return console.error('Error connection to the database:', err.stack);
     }
-
-    console.log('Connected to the database');
 })
 
 // gets all exercises for a given workout to display in history tab
 exerciseRouter.get('/:workout', (req, res, next) => {
-    console.log('received a get request for', req.params.workout);
 
     const workoutID = req.params.workout;
     const selectQuery = 'SELECT workout, reps, weight, date, name, sets FROM exercises WHERE workout = ?';
@@ -34,15 +31,12 @@ exerciseRouter.get('/:workout', (req, res, next) => {
             return res.status(500).send();
         }
 
-        console.log('results of select query for exercises:', results);
-
         res.send(results)
     })
 })
 
 // posts an exercise to the database
 exerciseRouter.post('/', (req, res, next) => {
-    console.log('received post request for exercise with info: ', req.body);
 
     const insertQuery = 'INSERT INTO exercises (workout, reps, weight, date, name, sets) VALUES (?, ?, ?, CURRENT_DATE(), ?, ?)';
 

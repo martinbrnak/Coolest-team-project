@@ -8,7 +8,6 @@ const LoginPage: React.FC = () => {
   
   useEffect(() => {
     // Redirect the user to the login page immediately
-    console.log('starting login with redirect');
     loginWithRedirect();
   }, [loginWithRedirect]);
   
