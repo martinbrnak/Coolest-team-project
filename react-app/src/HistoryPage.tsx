@@ -1,7 +1,8 @@
 // HistoryPage.tsx
 import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useAsyncError, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import './HistoryPage.css';
 
 const HistoryPage: React.FC = () => {
   const { user, isAuthenticated } = useAuth0();
@@ -23,12 +24,11 @@ const HistoryPage: React.FC = () => {
     const response = await fetch(fetchURL);
     if (response.ok) {
       const responseData = await response.json();
-      // console.log(responseData)
       const ret = [] as any;
-      
-      for (let i = 0 ; i < responseData.length ; i++) {
-        const workoutid = responseData[i]
-        const completeURL = 'http://localhost:8000/exercise/' + workoutid; // MAY GET STRING TYPE ERROR
+
+      for (let i = 0; i < responseData.length; i++) {
+        const workoutid = responseData[i];
+        const completeURL = 'http://localhost:8000/exercise/' + workoutid;
         const res = await fetch(completeURL);
         if (res.ok) {
           const resData = await res.json();
@@ -40,19 +40,17 @@ const HistoryPage: React.FC = () => {
       setHistoryData(ret);
       return;
     } else {
-      console.log('an issue came up with fetching the data')
+      console.log('an issue came up with fetching the data');
       return;
     }
-
-  }
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log('getting history data')
-      handleDisplayHistory()
+      console.log('getting history data');
+      handleDisplayHistory();
     }
-  }, [isAuthenticated])
-
+  }, [isAuthenticated]);
 
   const formatDate = (dateString: string): string => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -65,11 +63,10 @@ const HistoryPage: React.FC = () => {
         <div>
           <h1>History</h1>
           {historyData.map((subArray, index) => (
-            <div key={index}>
+            <div key={index} className="history-box">
               <strong>Workout {index + 1} ({formatDate(subArray[0].date)}):</strong>
               {subArray.map((item, subIndex) => (
                 <div key={subIndex}>
-                  {/* Display relevant data from 'item' in the subarray */}
                   <p>{item.name}: {item.sets} sets of {item.reps}, with weight {item.weight}</p>
                 </div>
               ))}

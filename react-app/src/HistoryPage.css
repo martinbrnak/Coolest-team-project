@@ -1,0 +1,21 @@
+/* HistoryPage.css */
+.container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .history-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    margin-left: 100px;
+    width: 800px;
+  }
+  
+  .history-box p {
+    margin: 7px 0;
+  }
+  
