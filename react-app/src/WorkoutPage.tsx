@@ -95,6 +95,7 @@ const WorkoutExerciseList: React.FC<ExerciseListProps> = ({
           {exerciseData.map((exercise) => (
             <div key={exercise.id} >
               <p>{exercise.name}</p>
+              <p>{exercise.id}</p>
               <button onClick={() => onExerciseSelect(exercise)}>Add to Workout</button>
             </div>
           ))}
@@ -111,7 +112,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   const [selectedMuscle, setSelectedMuscle] = useState<Muscle | null>(null);
   const [selectedEquipment, setSelectedEquipment] = useState<Equipment | null>(null);
   const [isNewWorkout, setIsNewWorkout] = useState(false);
-  const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: [], weight: [], sets: [] });
+  const [workout, setWorkout] = useState<Workout>({ exercise: [], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 }) });
   const [isAddingExercise, setIsAddingExercise] = useState(false)
   const [reps, setReps] = useState({});
   const [weights, setWeights] = useState({});
@@ -202,13 +203,67 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
     setIsNewWorkout(true);
     console.log(`Starting ${presetName} workout...`);
     if (presetName = 'Pull') {
-      console.log(`We would add Pull exercises`)
+      const exercise1 = {
+        id: 74,
+        name: "Biceps Curls With Barbell",
+        muscles: 0,
+        equipment: 0,
+      };
+      const exercise2 = {
+        id: 213,
+        name: "Close-grip Lat Pull Down",
+        muscles: 0,
+        equipment: 0,
+      };
+      const exercise3 = {
+        id: 105,
+        name: "Deadlifts",
+        muscles: 0,
+        equipment: 0,
+      };
+      setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 })});
     }
     else if (presetName = 'Push') {
-      console.log(`We would add Push exercises`)
+      const exercise1 = {
+        id: 192,
+        name: "Bench Press",
+        muscles: 0,
+        equipment: 0,
+      };
+      const exercise2 = {
+        id: 227,
+        name: "Arnold Shoulder Press",
+        muscles: 0,
+        equipment: 0,
+      };
+      const exercise3 = {
+        id: 344,
+        name: "Barbell Triceps Extension",
+        muscles: 0,
+        equipment: 0,
+      };
+      setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 })});
     }
     else if (presetName = 'Leg') {
-      console.log(`We would add Leg day exercises`)
+      const exercise1 = {
+        id: 1101,
+        name: "Barbell Squat",
+        muscles: 0,
+        equipment: 0,
+      };
+      const exercise2 = {
+        id: 1053,
+        name: "Barbell Lunges Standing",
+        muscles: 0,
+        equipment: 0,
+      };
+      const exercise3 = {
+        id: 308,
+        name: "Calf Press Using Leg Press Machine",
+        muscles: 0,
+        equipment: 0,
+      };
+      setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 })});
     }
     else {
       console.log(`Unknown Preset Error`)
@@ -216,7 +271,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
   };
 
   const resetWorkoutData = () => {
-    setWorkout({ exercise: [], reps: [], weight: [], sets: [] });
+    setWorkout({ exercise: [], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 }) });
   }
 
 
@@ -299,7 +354,6 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
                 setIsAddingExercise(false);
               }
             }}>Cancel / Return</button>    
-            {/* this ^^ needs to reset the workout field as well*/}
           </div>
           {workout.exercise.length > 0 && (
             <div>
