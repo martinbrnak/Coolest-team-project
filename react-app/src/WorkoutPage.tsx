@@ -7,6 +7,7 @@ import { array } from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { PopupCancelledError } from '@auth0/auth0-react';
+import "./fixed-bottom-container.css"
 
 interface Muscle {
   id: number;
@@ -290,7 +291,7 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
         <button className='StartPresetButtons' onClick={() => handleStartPreset('Pull')}>Pull Day</button>
         <button className='StartPresetButtons' onClick={() => handleStartPreset('Leg')}>Leg Day</button>
       </div>
-
+  
       {isNewWorkout && (
         <div className='NewWorkout'>
           {isAddingExercise && (
@@ -347,8 +348,9 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
               </div>
             </div>
           )}
-
-          <div>
+  
+          <div className='fixed-bottom-container'>
+            <button onClick={() => handleSaveWorkout()}> Save Workout </button>
             <button onClick={() => {
               if (!isAddingExercise) {
                 setIsNewWorkout(false);
@@ -358,18 +360,10 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
               }
             }}>Cancel / Return</button>    
           </div>
-          {workout.exercise.length > 0 && (
-            <div>
-              <button onClick={() => handleSaveWorkout()}> Save Workout </button>
-            </div>
-          )}
-
         </div>
-      )
-      }
-
-
-    </div >
+      )}
+    </div>
   );
+  
 };
 export default WorkoutPage;
