@@ -14,3 +14,5 @@ To run application:
 4. run "$ npm start"
 
 At this point the app should open in your browser, if it doesn't or if you acccidentally close the tab you can go to "http://localhost:3000"
+
+A demo recording of the app is included in the Demo.mkv file, but if that doesn't work for you this google drive link: https://drive.google.com/file/d/1YI8Tw_hdbZZT_h1wHzyTG1kuNhJyB3kq/view?usp=sharing will work for everyone within the BU domain.
