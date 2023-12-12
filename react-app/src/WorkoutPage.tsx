@@ -197,82 +197,85 @@ const WorkoutPage: React.FC<ExerciseListProps> = () => {
 
 
 
+  const resetWorkoutData = () => {
+    setWorkout({ exercise: [], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 }) });
+  }
 
   const handleStartPreset = (presetName: string) => {
     // Placeholder for handling the start of a preset workout
     setIsNewWorkout(true);
     console.log(`Starting ${presetName} workout...`);
-    if (presetName = 'Pull') {
-      const exercise1 = {
+    resetWorkoutData();
+    let exercise1;
+    let exercise2;
+    let exercise3;
+    if (presetName == 'Pull') {
+      exercise1 = {
         id: 74,
         name: "Biceps Curls With Barbell",
         muscles: 0,
         equipment: 0,
       };
-      const exercise2 = {
+      exercise2 = {
         id: 213,
         name: "Close-grip Lat Pull Down",
         muscles: 0,
         equipment: 0,
       };
-      const exercise3 = {
+      exercise3 = {
         id: 105,
         name: "Deadlifts",
         muscles: 0,
         equipment: 0,
       };
-      setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 })});
     }
-    else if (presetName = 'Push') {
-      const exercise1 = {
+    else if (presetName == 'Push') {
+      exercise1 = {
         id: 192,
         name: "Bench Press",
         muscles: 0,
         equipment: 0,
       };
-      const exercise2 = {
+      exercise2 = {
         id: 227,
         name: "Arnold Shoulder Press",
         muscles: 0,
         equipment: 0,
       };
-      const exercise3 = {
+      exercise3 = {
         id: 344,
         name: "Barbell Triceps Extension",
         muscles: 0,
         equipment: 0,
       };
-      setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 })});
     }
-    else if (presetName = 'Leg') {
-      const exercise1 = {
+    else if (presetName == 'Leg') {
+      exercise1 = {
         id: 1101,
         name: "Barbell Squat",
         muscles: 0,
         equipment: 0,
       };
-      const exercise2 = {
+      exercise2 = {
         id: 1053,
         name: "Barbell Lunges Standing",
         muscles: 0,
         equipment: 0,
       };
-      const exercise3 = {
+      exercise3 = {
         id: 308,
         name: "Calf Press Using Leg Press Machine",
         muscles: 0,
         equipment: 0,
       };
-      setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 })});
     }
     else {
       console.log(`Unknown Preset Error`)
     }
+    console.log(exercise1.name, exercise2.name, exercise3.name)
+    setWorkout({ exercise: [ exercise1, exercise2, exercise3 ], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 })});
   };
 
-  const resetWorkoutData = () => {
-    setWorkout({ exercise: [], reps: Array.from({ length: 2164 }), weight: Array.from({ length: 2164 }), sets: Array.from({ length: 2164 }) });
-  }
 
 
 
